@@ -102,4 +102,17 @@ class UserController extends AbstractController
         $this->dm->flush();
         return $this->json($user);
     }
+    /**
+     * @Route("/{id}", name="deleteUser",methods={"DELETE"})
+     */
+    public function deleteUser(string $id,Request $request): Response
+    {
+        $this->logger->info($id);
+        $user= $this->getUserRepository()->find($id);
+        $this->dm->remove($user);
+        $this->dm->flush();
+        return $this->json([
+            'message' => 'User has been deleted',
+        ]);
+    }
 }
